@@ -34,7 +34,31 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller 
 {	
 	public $components = array(
-		'DebugKit.Toolbar', 'Session'
+		'DebugKit.Toolbar', 'Session', 'Session',
+        'Auth' => array(
+            'loginRedirect' => array('controller' => 'posts', 'action' => 'index'),
+            'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home')
+		)
 	);
+	
+    public function beforeFilter() {
+        $this->Auth->allow('index', 'view');
+    }
+	public function login() 
+	{
+		if ($this->request->is('post')) 
+		{
+			if ($this->Auth->login())
+			{
+				return $this->redirect($this->Auth->redirect());
+			}
+			$this->Session->setFlash(__('Invalid username or password, try again'));
+		}
+	}
+	
+	public function logout() 
+	{
+		return $this->redirect($this->Auth->logout());
+	}
 }
 

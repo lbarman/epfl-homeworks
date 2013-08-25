@@ -2,16 +2,21 @@
 class CoursesController extends AppController 
 {
     public $helpers = array('Html', 'Form');
+	public $uses = array('User', 'Course');
 	
 	public function index() 
 	{
-        $this->set('courses', $this->Course->find('all'));
+		$courses = $this->Course->find('all');
+		$users = $this->User->find('list', array("fields" => array('User.id', 'User.username')));
+        $this->set('courses', $courses);
+        $this->set('users', $users);
     }
-	
+		
 	public function add()
 	{
         if ($this->request->is('post'))
 		{
+			$this->request->data['Course']['user_id'] = $this->Auth->user('id');
             $this->Course->create();
             if ($this->Course->save($this->request->data))
 			{

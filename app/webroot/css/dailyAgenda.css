@@ -1,0 +1,11 @@
+/* CSS Document */
+.dailyTable tr td
+{
+	background-color:#FFF;
+}
+
+.dailyTable .time
+{
+	font-size:8px;
+	color:#666;	
+}
