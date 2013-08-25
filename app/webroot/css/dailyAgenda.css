@@ -1,11 +1,70 @@
 /* CSS Document */
-.dailyTable tr td
+.dailyTableContainer
 {
+	position:relative;
+	height:780px;
+	width:90%;
 	background-color:#FFF;
 }
 
-.dailyTable .time
+.splitter div
 {
+	margin-top:5px;
+}
+
+.splitter
+{
+	position:absolute;
+	border-bottom:1px dotted #666;
+	width:100%;
+	left:0px;	
+	height:30px !important;
 	font-size:8px;
 	color:#666;	
+	text-align:left;
+	padding-left:20px;
+}
+
+.dailyTable,
+.dailyTable tr,
+.dailyTable tr td,
+.dailyTableContainer
+{
+	padding:0px;
+	spacing:0px;
+}
+
+.dailyAgendaEntry
+{
+	font-size:11px;
+	position:absolute;
+	width:300px;
+	border:1px solid #000;
+	left:100px;
+	
+	
+	
+	background: #09F;
+	background-repeat: repeat-x;
+	background-image: -moz-linear-gradient(top, #09F, #06F);
+	background-image: -ms-linear-gradient(top, #09F, #06F);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#09F), to(#06F));
+	background-image: -webkit-linear-gradient(top, #09F, #06F);
+	background-image: -o-linear-gradient(top, #09F, #06F);
+	background-image: linear-gradient(top, #09F, #06F);
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	margin-bottom: 18px;
+	padding: 7px 14px;
+	color: #FFF;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+	-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.dailyColumn
+{	
 }

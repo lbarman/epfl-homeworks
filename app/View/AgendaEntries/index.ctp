@@ -2,22 +2,6 @@
 <?php
 echo $this->Html->css('dailyAgenda');
 
-function hasAgendaEntryForTime($time, $agendaEntries)
-{
-	$t1 = strtotime($time);
-	foreach ($agendaEntries as $agendaEntry):
-		//echo 'comparing '.$t1.' with '.$agendaEntry['AgendaEntry']['startTime'].' = '.strtotime($agendaEntry['AgendaEntry']['startTime']);
-		$t2 = strtotime($agendaEntry['AgendaEntry']['startTime']);
-		$t3 = strtotime($agendaEntry['AgendaEntry']['endTime']);
-		if($t1 >= $t2 && $t1 <= $t3)
-		{
-			return $agendaEntry;	
-		}
-	endforeach;
-	
-	return NULL;
-}
-
 function twoDigits($number)
 {
 	if($number >= -9 && $number <= 9)
@@ -27,25 +11,21 @@ function twoDigits($number)
 
 function viewDay($agendaEntries)
 {
-	echo '<table class="dailyTable">';
+	echo '<div class="dailyColumn"><div class="dailyTableContainer">';
 	
 	$hour = 8;
 	$min = 0;
 	
 	while($hour < 21)
 	{
-		$timeString = twoDigits($hour).':'.twoDigits($min);
-		$agendaEntry = hasAgendaEntryForTime($timeString, $agendaEntries);
-		$agendaString = '';
-		if($agendaEntry != NULL)
-		{
-			$agendaString = $agendaEntry['AgendaEntry']['label'];
-		}
-		echo '<tr class="splitter">
-				<td class="time">'.$timeString.'</td>
-				<td>'.$agendaString.'</td>
-			  </tr>';
-			  
+		$timeString = twoDigits($hour).':'.twoDigits($min);		
+		$hourInPixel = (15)*4;
+		
+		$startOffset = ($hour - 8)*$hourInPixel + $min;
+		$height = $hourInPixel/2;
+		
+		echo '<div class="splitter" style="top:'.$startOffset.'px; height:'.$height.'px"><div>'.$timeString.'</div></div>';
+							  
 		$min += 30;
 		if($min == 60)
 		{
@@ -53,13 +33,33 @@ function viewDay($agendaEntries)
 			$hour++;
 		}
 	}
-	echo '</table>';	
+	
+	foreach ($agendaEntries as $agendaEntry):
+		//echo 'comparing '.$t1.' with '.$agendaEntry['AgendaEntry']['startTime'].' = '.strtotime($agendaEntry['AgendaEntry']['startTime']);
+		$t1 = ($agendaEntry['AgendaEntry']['startTime']);
+		$t2 = ($agendaEntry['AgendaEntry']['endTime']);
+		list($hour1, $min1) = explode(':', $t1);
+		list($hour2, $min2) = explode(':', $t2);
+		
+		//30min = 30px
+		//1h = 60px
+		
+		$hourInPixel = (15)*4;
+		
+		$startOffset = ($hour1 - 8)*$hourInPixel + $min1;
+		$endOffset = ($hour2 - 8)*$hourInPixel + $min2; 
+		$height = $endOffset-$startOffset;
+		
+		echo '<div class="dailyAgendaEntry" style="top:'.$startOffset.'px; height:'.$height.'px">'.$agendaEntry['AgendaEntry']['label'].'</div>';
+		
+	endforeach;	
+	echo '</div></div>';
 }
 
-?>
-
-<h1>Agenda Entries</h1>
-<table>
+function printTable($agendaEntries, $courses, $users)
+{
+	?>
+    <table>
     <tr>
         <th>#</th>
         <th>Label</th>
@@ -83,8 +83,15 @@ function viewDay($agendaEntries)
         <td><?php echo $agendaEntry['AgendaEntry']['endTime']; ?></td>
     </tr>
     <?php endforeach; ?>
-    
+</table>
+    <?php	
+}
+
+?>
+
+<h1>Agenda Entries</h1>
+
+    <?php //printTable($agendaEntries, $courses, $users); ?>
     <?php viewDay($agendaEntries); ?>
     
     <?php unset($post); ?>
-</table>
