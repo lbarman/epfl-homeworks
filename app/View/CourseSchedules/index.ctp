@@ -1,4 +1,4 @@
-<!-- File: /app/View/Courses/index.ctp -->
+<!-- File: /app/View/CoursesSchedules/index.ctp -->
 
 <?php
 echo $this->Html->css('dailyAgenda');
@@ -53,7 +53,7 @@ function viewDay($courseSchedules, $courses)
 		$width = 200;
 		$yOffset = 100+$width * ($courseSchedule['CourseSchedule']['dayOfWeek'] - 1);
 		
-		echo '<div class="courseSchedule" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$width.'px;">'.$courses[$courseSchedule['CourseSchedule']['courseId']].'</div>';
+		echo '<a href="edit/'.$courseSchedule['CourseSchedule']['courseId'].'" class="courseScheduleLink"><div class="courseSchedule" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$width.'px;">'.$courses[$courseSchedule['CourseSchedule']['courseId']].'</div></a>';
 		
 	endforeach;	
 	echo '</div></div>';
@@ -101,7 +101,10 @@ function printTable($courseSchedule, $courses, $users)
 
 ?>
 
-<h1>Courses Schedules Entries</h1>
+<h1>Courses Schedules Entries</h1><?php echo $this->Html->link(
+    'Add Timeslot',
+    array('controller' => 'CourseSchedules', 'action' => 'add')
+); ?>
 
     <?php //printTable($courseSchedules, $courses, $users); ?>
     <?php viewDay($courseSchedules, $courses); ?>
