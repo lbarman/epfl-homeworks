@@ -1,5 +1,5 @@
-<!-- File: /app/View/Courses/add.ctp -->
-<h1>Add new course</h1>
+<!-- File: /app/View/CourseSchedules/add.ctp -->
+<h1>Add new course schedule</h1>
 <?php echo $this->Html->link(
     'Back to the list',
     array('controller' => 'CourseSchedule', 'action' => 'index')

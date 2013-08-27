@@ -1,4 +1,4 @@
-<!-- File: /app/View/Courses/add.ctp -->
+<!-- File: /app/View/Courses/edit.ctp -->
 <h1>Edit course</h1>
 <?php echo $this->Html->link(
     'Back to the list',

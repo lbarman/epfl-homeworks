@@ -14,15 +14,17 @@ function viewDay($courseSchedules, $courses)
 {
 	echo '<div class="dailyColumn"><div class="dailyTableContainer">';
 	
-	$hour = 8;
+	$startHour = 7;
+	
+	$hour = $startHour;
 	$min = 0;
 	
-	while($hour < 21)
+	while($hour < 20)
 	{
 		$timeString = twoDigits($hour).':'.twoDigits($min);		
 		$hourInPixel = (15)*4;
 		
-		$startOffset = ($hour - 8)*$hourInPixel + $min;
+		$startOffset = ($hour - $startHour)*$hourInPixel + $min;
 		$height = $hourInPixel/2;
 		
 		echo '<div class="splitter" style="top:'.$startOffset.'px; height:'.$height.'px;"><div>'.$timeString.'</div></div>';
@@ -47,21 +49,27 @@ function viewDay($courseSchedules, $courses)
 		
 		$hourInPixel = (15)*4;
 		
-		$startOffset = ($hour1 - 8)*$hourInPixel + $min1;
-		$endOffset = ($hour2 - 8)*$hourInPixel + $min2; 
+		$startOffset = ($hour1 - $startHour)*$hourInPixel + $min1;
+		$endOffset = ($hour2 - $startHour)*$hourInPixel + $min2; 
 		$height = $endOffset-$startOffset;
 		$width = 200;
-		$yOffset = 100+$width * ($courseSchedule['CourseSchedule']['dayOfWeek'] - 1);
+		$yOffset = 100+($width+20) * ($courseSchedule['CourseSchedule']['dayOfWeek'] - 1);
 		
-		echo '<a href="edit/'.$courseSchedule['CourseSchedule']['courseId'].'" class="courseScheduleLink"><div class="courseSchedule" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$width.'px;">'.$courses[$courseSchedule['CourseSchedule']['courseId']].'</div></a>';
+		echo '<div class="courseSchedule" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$width.'px;" onClick="window.location = \'CourseSchedules/edit/'.$courseSchedule['CourseSchedule']['id'].'\';">'.
+					
+					'<a class="deleteLink" href="#" onclick="if (confirm(\'Are you sure you want to delete this?\')) { window.location = \'CourseSchedules/delete/'.$courseSchedule['CourseSchedule']['id'].'\'; } event.returnValue = false; return false;"><img src="app/webroot/img/delete.png" width="16" height="16" alt="Delete" /></a>'.
+					
+					'<a class="editLink" href="CourseSchedules/edit/'.$courseSchedule['CourseSchedule']['id'].'"><img src="app/webroot/img/edit.gif" width="14" height="14" alt="Edit" /></a>'.
+					
+					$courses[$courseSchedule['CourseSchedule']['courseId']].
+				'</div>';
 		
 	endforeach;	
 	echo '</div></div>';
 }
-
-function printTable($courseSchedule, $courses, $users)
+function printTable($courseSchedules, $courses, $users)
 {
-	?>
+?>
 <table>
     <tr>
         <th>Id</th>

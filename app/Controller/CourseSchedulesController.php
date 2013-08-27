@@ -36,8 +36,8 @@ class CourseSchedulesController extends AppController
 			throw new NotFoundException(__('Invalid post'));
 		}
 	
-		$post = $this->Course->findById($id);
-		if (!$post) 
+		$courseSchedule = $this->CourseSchedule->findById($id);
+		if (!$courseSchedule) 
 		{
 			throw new NotFoundException(__('Invalid post'));
 		}
@@ -54,13 +54,13 @@ class CourseSchedulesController extends AppController
 	
 		if (!$this->request->data) 
 		{
-			$this->request->data = $post;
+			$this->request->data = $courseSchedule;
 		}
 	}
 	
 	public function delete($id)
 	{
-		if ($this->request->is('get'))
+		if ($this->request->is('post'))
 		{
 			throw new MethodNotAllowedException();
 		}
