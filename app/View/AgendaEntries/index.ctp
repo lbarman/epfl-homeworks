@@ -92,6 +92,9 @@ function printTable($agendaEntries, $courses, $users)
 <h1>Agenda Entries</h1>
 
     <?php //printTable($agendaEntries, $courses, $users); ?>
-    <?php viewDay($agendaEntries); ?>
+    <div class="dailyColumn"><div class="dailyTableContainer">
+    <?php $this->Calendar->getTimeGrid(); ?>
+    </div></div>
+    <?php //viewDay($agendaEntries); ?>
     
     <?php unset($post); ?>
