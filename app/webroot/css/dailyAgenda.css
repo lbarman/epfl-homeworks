@@ -14,6 +14,7 @@
 
 .splitter
 {
+	z-index:50;
 	position:absolute;
 	border-bottom:1px dotted #666;
 	width:100%;
@@ -80,11 +81,11 @@
 }
 .editLink
 {
-	display:none !important;	
 }
 
 .courseSchedule
 {
+	z-index:100;
 	cursor:pointer;
 	font-size:11px;
 	position:absolute;
@@ -121,6 +122,18 @@
 	background-image: -webkit-linear-gradient(top, #ffcc00, #E6B800);
 	background-image: -o-linear-gradient(top, #ffcc00, #E6B800);
 	background-image: linear-gradient(top, #ffcc00, #E6B800);
+}
+
+.agendaEntry
+{
+	z-index:200;
+	background: #09F;
+	background-image: -moz-linear-gradient(top, #09F, #06F);
+	background-image: -ms-linear-gradient(top, #09F, #06F);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#09F), to(#06F));
+	background-image: -webkit-linear-gradient(top, #09F, #06F);
+	background-image: -o-linear-gradient(top, #09F, #06F);
+	background-image: linear-gradient(top, #09F, #06F);
 }
 .dailyColumn
 {	

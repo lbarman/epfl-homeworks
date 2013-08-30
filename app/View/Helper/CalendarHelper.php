@@ -32,15 +32,22 @@ App::uses('Helper', 'View');
  */
 class CalendarHelper extends Helper 
 {
-	public function printWeek($lastMonday, $courseSchedules, $courses, $editable)
+	public function printWeek($params)
 	{
+		$lastMonday = $params['lastMonday'];
+		$agendaEntries = $params['agendaEntries'];
+		$courseSchedules = $params['courseSchedules'];
+		$courses = $params['courses'];
+		$editable = $params['editable'];
+		
 		$result = '';
 		
 		$result .= '<div class="dailyColumn">';
     	$result .= '<div class="dailyTableContainer">';
 		
-		$result .= $this->getTimeGrid($lastMonday);
-		$result .= $this->getCoursesTimeSlots($lastMonday, $courseSchedules, $courses, $editable);
+		$result .= $this->getTimeGrid($params);
+		$result .= $this->getCoursesTimeSlots($params);
+		$result .= $this->getAgendaEntries($params);
 				
 		$result .= '</div>';
 		$result .= '</div>';
@@ -55,8 +62,10 @@ class CalendarHelper extends Helper
 		return $number;	
 	}
 	
-	public function getTimeGrid($lastMonday, $startHour = 7, $endHour = 19, $hourInPixel=60, $columnWidth=200, $columnSpacing=20, $columnOffset=100)
+	public function getTimeGrid($params, $startHour = 7, $endHour = 19, $hourInPixel=60, $columnWidth=200, $columnSpacing=20, $columnOffset=100)
 	{
+		$lastMonday = $params['lastMonday'];
+		
 		$result = '';
 		
 		$hour = $startHour;
@@ -91,6 +100,11 @@ class CalendarHelper extends Helper
 		return $result;
 	}
 	
+	public function lastMonday()
+	{		
+		return strtotime('last monday', strtotime('tomorrow'));
+	}
+	
 	public function finalTimeStamp($dateTimeStamp, $timeString)
 	{
 		$parts = explode(':', $timeString);
@@ -98,8 +112,13 @@ class CalendarHelper extends Helper
 		return $val;
 	}
 	
-	public function getCoursesTimeSlots($lastMonday, $courseSchedules, $courses, $editable=false, $startHour = 7, $hourInPixel=60, $columnWidth=200, $columnSpacing=20, $columnOffset=100)
+	public function getCoursesTimeSlots($params, $startHour = 7, $hourInPixel=60, $columnWidth=200, $columnSpacing=20, $columnOffset=100)
 	{
+		$lastMonday = $params['lastMonday'];
+		$courseSchedules = $params['courseSchedules'];
+		$courses = $params['courses'];
+		$editable = $params['editable'];
+		
 		$result = '';
 		
 		foreach ($courseSchedules as $courseSchedule):
@@ -119,9 +138,9 @@ class CalendarHelper extends Helper
 			$dateLater = $this->finalTimeStamp($date, $courseSchedule['CourseSchedule']['endTime']);
 			
 			$class = $editable ? 'courseSchedule courseScheduleEditable' : 'courseSchedule';
-			$onclickAction = $editable ? 'CourseSchedules/edit/'.$courseSchedule['CourseSchedule']['id'] : 'AgendaEntries/add/'.$courseSchedule['CourseSchedule']['courseId'].'/'.$dateEarly.'/'.$dateLater.'/';
+			$onclick = $editable ? '' : ' onClick="window.location = \'AgendaEntries/add/'.$courseSchedule['CourseSchedule']['courseId'].'/'.$dateEarly.'/'.$dateLater.'/\';"';
 			
-			$result .= '<div class="'.$class.'" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$columnWidth.'px;" onClick="window.location = \''.$onclickAction.'\';">';
+			$result .= '<div class="'.$class.'" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$columnWidth.'px;"'.$onclick.'>';
 			
 			if($editable)
 			{	
@@ -131,6 +150,40 @@ class CalendarHelper extends Helper
 			}
 						
 			$result .=	$courses[$courseSchedule['CourseSchedule']['courseId']].	'</div>';
+			
+		endforeach;	
+		
+		return $result;
+	}
+	
+	public function getAgendaEntries($params, $startHour = 7, $hourInPixel=60, $columnWidth=200, $columnSpacing=20, $columnOffset=100)
+	{
+		$lastMonday = $params['lastMonday'];
+		$courseSchedules = $params['courseSchedules'];
+		$courses = $params['courses'];
+		$editable = $params['editable'];
+		$agendaEntries = $params['agendaEntries'];
+		
+		$result = '';
+		
+		foreach ($agendaEntries as $agendaEntry):
+		
+			$t1 = ($agendaEntry['AgendaEntry']['startTime']);
+			$t2 = ($agendaEntry['AgendaEntry']['endTime']);
+			list($hour1, $min1) = explode(':', $t1);
+			list($hour2, $min2) = explode(':', $t2);
+			
+			$startOffset = ($hour1 - $startHour)*$hourInPixel + $min1;
+			$endOffset = ($hour2 - $startHour)*$hourInPixel + $min2; 
+			$height = $endOffset-$startOffset;
+			
+			$dayOfWeek = date("N", strtotime($agendaEntry['AgendaEntry']['date'])) ;
+			$yOffset = $columnOffset+($columnWidth+$columnSpacing) * ($dayOfWeek - 1);
+			
+			
+			$result .= '<div class="courseSchedule agendaEntry" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$columnWidth.'px;">';
+					
+			$result .=	nl2br($agendaEntry['AgendaEntry']['label']).	'</div>';
 			
 		endforeach;	
 		

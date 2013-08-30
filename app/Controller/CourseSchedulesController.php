@@ -18,7 +18,7 @@ class CourseSchedulesController extends AppController
 	{
         if ($this->request->is('post'))
 		{
-			$this->request->data['CourseSchedule']['user_id'] = $this->Auth->user('id');
+			$this->request->data['CourseSchedule']['userId'] = $this->Auth->user('id');
             $this->CourseSchedule->create();
             if ($this->CourseSchedule->save($this->request->data))
 			{

@@ -18,7 +18,7 @@
     <?php foreach ($courses as $course): ?>
     <tr>
         <td><?php echo $course['Course']['id']; ?></td>
-        <td><?php echo $users[$course['Course']['user_id']]; ?></td>
+        <td><?php echo $users[$course['Course']['userId']]; ?></td>
         <td><?php echo $course['Course']['label']; ?></td>
         <td>
             <?php echo $this->Html->link('Edit', array('action' => 'edit', $course['Course']['id'])); ?>

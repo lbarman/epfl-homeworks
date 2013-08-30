@@ -16,7 +16,7 @@ class CoursesController extends AppController
 	{
         if ($this->request->is('post'))
 		{
-			$this->request->data['Course']['user_id'] = $this->Auth->user('id');
+			$this->request->data['Course']['userId'] = $this->Auth->user('id');
             $this->Course->create();
             if ($this->Course->save($this->request->data))
 			{

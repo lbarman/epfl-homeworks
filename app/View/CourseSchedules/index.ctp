@@ -53,10 +53,18 @@ function printTable($courseSchedules, $courses, $users)
     <?php //printTable($courseSchedules, $courses, $users); ?>
     <div class="dailyColumn">
     <div class="dailyTableContainer">
+
+	<?php
+	$params = array(
+			'lastMonday' => $this->Calendar->lastMonday(),
+			'courseSchedules' => $courseSchedules,
+			'courses' => $courses,
+			'editable' => true
+			);
 	
-	<?php echo $this->Calendar->getTimeGrid(); ?>
-		
-	<?php echo $this->Calendar->getCoursesTimeSlots($courseSchedules, $courses, true); ?>
+	 echo $this->Calendar->getTimeGrid($params);
+	 echo $this->Calendar->getCoursesTimeSlots($params);
+	  ?>
 		
 	</div>
     </div>
