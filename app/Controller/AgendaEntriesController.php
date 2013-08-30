@@ -53,5 +53,64 @@ class AgendaEntriesController extends AppController
             $this->Session->setFlash(__('Unable to add your agenda entry.'));
         }
 	}
+	public function edit($id)
+	{
+		if (!$id) 
+		{
+			throw new NotFoundException(__('Invalid post'));
+		}
+	
+		$agendaEntry = $this->AgendaEntry->findById($id);
+		if (!$agendaEntry) 
+		{
+			throw new NotFoundException(__('Invalid post'));
+		}
+	
+		if ($this->request->is('post') || $this->request->is('put')) 
+		{
+			$this->AgendaEntry->id = $id;
+			if ($this->AgendaEntry->save($this->request->data)) {
+				$this->Session->setFlash(__('Your agenda entry has been updated.'));
+				return $this->redirect(array('action' => 'index'));
+			}
+			$this->Session->setFlash(__('Unable to update your timeslot.'));
+		}
+	
+		if (!$this->request->data) 
+		{
+			$this->request->data = $agendaEntry;
+		}	
+	}
+	
+	public function editSideColumn($id)
+	{
+		if (!$id) 
+		{
+			throw new NotFoundException(__('Invalid post'));
+		}
+	
+		$agendaEntry = $this->AgendaEntry->findById($id);
+		if (!$agendaEntry) 
+		{
+			throw new NotFoundException(__('Invalid post'));
+		}
+		
+		$this->layout = false;
+	
+		if ($this->request->is('post') || $this->request->is('put')) 
+		{
+			$this->AgendaEntry->id = $id;
+			if ($this->AgendaEntry->save($this->request->data)) {
+				$this->Session->setFlash(__('Your agenda entry has been updated.'));
+				return $this->redirect(array('action' => 'index'));
+			}
+			$this->Session->setFlash(__('Unable to update your timeslot.'));
+		}
+	
+		if (!$this->request->data) 
+		{
+			$this->request->data = $agendaEntry;
+		}	
+	}
 }
 ?>

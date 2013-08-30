@@ -1,4 +1,19 @@
 /* CSS Document */
+
+.leftColumn
+{
+	margin-right:300px;
+	overflow:scroll;
+}
+
+.rightColumn
+{
+	margin-left:20px;
+	float:right;
+	width:300px;	
+	background-color:#FFF;
+}
+
 .dailyTableContainer
 {
 	position:relative;

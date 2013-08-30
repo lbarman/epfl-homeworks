@@ -181,7 +181,7 @@ class CalendarHelper extends Helper
 			$yOffset = $columnOffset+($columnWidth+$columnSpacing) * ($dayOfWeek - 1);
 			
 			
-			$result .= '<div class="courseSchedule agendaEntry" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$columnWidth.'px;">';
+			$result .= '<div id="agendaEntry_'.$agendaEntry['AgendaEntry']['id'].'" class="courseSchedule agendaEntry" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$columnWidth.'px;">';
 					
 			$result .=	nl2br($agendaEntry['AgendaEntry']['label']).	'</div>';
 			
