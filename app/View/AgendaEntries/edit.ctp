@@ -7,7 +7,8 @@
 <?php
 echo $this->Form->create('AgendaEntry');
 echo $this->Form->input('label');
-echo $this->Form->input('courseId');
+echo $this->Form->input('Course', array(
+    'name' => 'data[AgendaEntry][courseId]'));
 echo $this->Form->input('entryType');
 echo $this->Form->input('date', array('dateFormat' => 'DMY'));
 echo $this->Form->input('startTime');

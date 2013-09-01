@@ -6,5 +6,19 @@ class Course extends AppModel
             'rule' => 'notEmpty'
         )
     );
+	
+	public $hasMany = array(
+        'CourseSchedule' => array(
+            'className' => 'CourseSchedule',
+            'foreignKey' => 'courseId'
+        )
+    );
+	
+	public $belongsTo = array(
+        'User' => array(
+            'className' => 'User',
+            'foreignKey' => 'userId'
+        )
+    );
 }
 ?>

@@ -24,24 +24,33 @@ class AgendaEntriesController extends AppController
         $this->set('agendaEntries', $agendaEntries);
     }
 	
-	public function add($courseId, $dateEarly, $dateLater)
+	public function add($courseId=1, $dateEarly=0, $dateLater=0)
 	{
-		$dateParts1 = getdate($dateEarly);
-		$dateParts2 = getdate($dateLater);
-		
-		$date = $dateParts1['mon'].'/'.$dateParts1['mday'].'/'.$dateParts1['year'];
-		$time1 = $dateParts1['hours'].':'.$dateParts1['minutes'].':'.$dateParts1['seconds'];
-		$time2 = $dateParts2['hours'].':'.$dateParts2['minutes'].':'.$dateParts2['seconds'];
-		
-		if(!$this->request->is('post'))
+		$this->set('courses', $this->AgendaEntry->Course->find('list', array(
+        															'fields' => array('Course.id', 'Course.label'))));
+		$this->set('entryTypes', $this->AgendaEntry->EntryType->find('list', array(
+        															'fields' => array('EntryType.id', 'EntryType.name'))));
+																	
+		if($dateEarly != 0 && $dateLater != 0)
 		{
-			$this->request->data['AgendaEntry']['startTime'] = $time1;
-			$this->request->data['AgendaEntry']['endTime'] = $time2;
-			$this->request->data['AgendaEntry']['courseId'] = $courseId;
-			$this->request->data['AgendaEntry']['date'] = $date;
-			$this->request->data['AgendaEntry']['entryType'] = 'default';
+			$dateParts1 = getdate($dateEarly);
+			$dateParts2 = getdate($dateLater);
+			
+			$date = $dateParts1['mon'].'/'.$dateParts1['mday'].'/'.$dateParts1['year'];
+			$time1 = $dateParts1['hours'].':'.$dateParts1['minutes'].':'.$dateParts1['seconds'];
+			$time2 = $dateParts2['hours'].':'.$dateParts2['minutes'].':'.$dateParts2['seconds'];
+			
+			if(!$this->request->is('post'))
+			{
+				$this->request->data['AgendaEntry']['startTime'] = $time1;
+				$this->request->data['AgendaEntry']['endTime'] = $time2;
+				$this->request->data['AgendaEntry']['courseId'] = $courseId;
+				$this->request->data['AgendaEntry']['date'] = $date;
+				$this->request->data['AgendaEntry']['entryType'] = 'default';
+			}
 		}
-		else //when ($this->request->is('post'))
+		
+		if($this->request->is('post'))
 		{
 			$this->request->data['AgendaEntry']['userId'] = $this->Auth->user('id');
             $this->AgendaEntry->create();
@@ -53,8 +62,20 @@ class AgendaEntriesController extends AppController
             $this->Session->setFlash(__('Unable to add your agenda entry.'));
         }
 	}
+	
+	public function addSideColumn($courseId=1, $dateEarly=0, $dateLater=0)
+	{																	
+		$this->layout = false;
+		$this->add($courseId, $dateEarly, $dateLater);
+	}
+	
 	public function edit($id)
 	{
+		$this->set('courses', $this->AgendaEntry->Course->find('list', array(
+        															'fields' => array('Course.id', 'Course.label'))));
+		$this->set('entryTypes', $this->AgendaEntry->EntryType->find('list', array(
+        															'fields' => array('EntryType.id', 'EntryType.name'))));
+																	
 		if (!$id) 
 		{
 			throw new NotFoundException(__('Invalid post'));
@@ -70,7 +91,7 @@ class AgendaEntriesController extends AppController
 		{
 			$this->AgendaEntry->id = $id;
 			if ($this->AgendaEntry->save($this->request->data)) {
-				$this->Session->setFlash(__('Your agenda entry has been updated.'));
+				//$this->Session->setFlash(__('Your agenda entry has been updated.'));
 				return $this->redirect(array('action' => 'index'));
 			}
 			$this->Session->setFlash(__('Unable to update your timeslot.'));
@@ -84,33 +105,22 @@ class AgendaEntriesController extends AppController
 	
 	public function editSideColumn($id)
 	{
-		if (!$id) 
-		{
-			throw new NotFoundException(__('Invalid post'));
-		}
-	
-		$agendaEntry = $this->AgendaEntry->findById($id);
-		if (!$agendaEntry) 
-		{
-			throw new NotFoundException(__('Invalid post'));
-		}
-		
 		$this->layout = false;
+		$this->edit($id);
+	}
 	
-		if ($this->request->is('post') || $this->request->is('put')) 
+	public function delete($id)
+	{
+		if (!$this->request->is('post'))
 		{
-			$this->AgendaEntry->id = $id;
-			if ($this->AgendaEntry->save($this->request->data)) {
-				$this->Session->setFlash(__('Your agenda entry has been updated.'));
-				return $this->redirect(array('action' => 'index'));
-			}
-			$this->Session->setFlash(__('Unable to update your timeslot.'));
+			throw new MethodNotAllowedException();
 		}
 	
-		if (!$this->request->data) 
+		if ($this->AgendaEntry->delete($id))
 		{
-			$this->request->data = $agendaEntry;
-		}	
+			$this->Session->setFlash(__('The Agenda Entry with id: %s has been deleted.', h($id)));
+			return $this->redirect(array('action' => 'index'));
+		}
 	}
 }
 ?>

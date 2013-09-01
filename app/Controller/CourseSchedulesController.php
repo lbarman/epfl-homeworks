@@ -16,6 +16,10 @@ class CourseSchedulesController extends AppController
 	
 	public function add()
 	{
+		$this->set('courses', $this->CourseSchedule->Course->find('list', array(
+        															'fields' => array('Course.id', 'Course.label'))));
+		$this->set('dayOfWeeks', $this->CourseSchedule->DayOfWeek->find('list', array(
+        															'fields' => array('DayOfWeek.id', 'DayOfWeek.name'))));
         if ($this->request->is('post'))
 		{
 			$this->request->data['CourseSchedule']['userId'] = $this->Auth->user('id');
@@ -31,6 +35,10 @@ class CourseSchedulesController extends AppController
 	
 	public function edit($id = null) 
 	{
+		$this->set('courses', $this->CourseSchedule->Course->find('list', array(
+        															'fields' => array('Course.id', 'Course.label'))));
+		$this->set('dayOfWeeks', $this->CourseSchedule->DayOfWeek->find('list', array(
+        															'fields' => array('DayOfWeek.id', 'DayOfWeek.name'))));
 		if (!$id) 
 		{
 			throw new NotFoundException(__('Invalid post'));

@@ -138,9 +138,9 @@ class CalendarHelper extends Helper
 			$dateLater = $this->finalTimeStamp($date, $courseSchedule['CourseSchedule']['endTime']);
 			
 			$class = $editable ? 'courseSchedule courseScheduleEditable' : 'courseSchedule';
-			$onclick = $editable ? '' : ' onClick="window.location = \'AgendaEntries/add/'.$courseSchedule['CourseSchedule']['courseId'].'/'.$dateEarly.'/'.$dateLater.'/\';"';
+			$onclick = $editable ? '' : '';//' onClick="window.location = \'AgendaEntries/add/'.$courseSchedule['CourseSchedule']['courseId'].'/'.$dateEarly.'/'.$dateLater.'/\';"';
 			
-			$result .= '<div class="'.$class.'" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$columnWidth.'px;"'.$onclick.'>';
+			$result .= '<div id="courseSchedule_'.$courseSchedule['CourseSchedule']['id'].'" class="'.$class.'" tag="'.$dateEarly.'_'.$dateLater.'/" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$columnWidth.'px;"'.$onclick.'>';
 			
 			if($editable)
 			{	
