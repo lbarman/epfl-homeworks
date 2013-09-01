@@ -33,11 +33,12 @@ App::uses('Helper', 'View');
 class CalendarHelper extends Helper 
 {
 	private $startHour		= 7;
-	private $endHour			= 21;
-	private $hourInPixel		= 60;
-	private $columnWidth		= 200;
+	private $endHour		= 21;
+	private $hourInPixel	= 60;
+	private $columnWidth	= 200;
 	private $columnSpacing	= 20;
 	private $columnOffset	= 100;
+	private $lastDay		= 5; //end on friday
 	
 	public function printWeek($params)
 	{
@@ -78,7 +79,7 @@ class CalendarHelper extends Helper
 		$hour = $this->startHour;
 		$min = 0;
 		
-		$width = $this->columnOffset + 7*($this->columnSpacing+$this->columnWidth);
+		$width = $this->columnOffset + $this->lastDay*($this->columnSpacing+$this->columnWidth);
 		
 		while($hour <= $this->endHour)
 		{
@@ -97,7 +98,7 @@ class CalendarHelper extends Helper
 			}
 		}
 		
-		for($i=0; $i < 7; $i++)
+		for($i=0; $i < $this->lastDay; $i++)
 		{
 			$yOffset = $this->columnOffset+($this->columnWidth+$this->columnSpacing) * $i;
 			$currentDate = $lastMonday + $i*3600*24;
@@ -145,7 +146,7 @@ class CalendarHelper extends Helper
 			$dateLater = $this->finalTimeStamp($date, $courseSchedule['CourseSchedule']['endTime']);
 			
 			$color = 'agendaTileGrey '. $courseSchedule['ColorClass']['className'];
-			$class = $editable ? 'courseSchedule '.$color.'' : 'courseSchedule courseScheduleClickable';
+			$class = $editable ? 'courseSchedule '.$color.'' : 'courseSchedule clickable agendaTileGrey';
 			$onclick = $editable ? '' : '';//' onClick="window.location = \'AgendaEntries/add/'.$courseSchedule['CourseSchedule']['courseId'].'/'.$dateEarly.'/'.$dateLater.'/\';"';
 			
 			$result .= '<div id="courseSchedule_'.$courseSchedule['CourseSchedule']['id'].'" class="'.$class.'" tag="'.$dateEarly.'_'.$dateLater.'/" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$this->columnWidth.'px;"'.$onclick.'>';
@@ -187,9 +188,9 @@ class CalendarHelper extends Helper
 			
 			$dayOfWeek = date("N", strtotime($agendaEntry['AgendaEntry']['date'])) ;
 			$yOffset = $this->columnOffset+($this->columnWidth+$this->columnSpacing) * ($dayOfWeek - 1);
-			
-			
-			$result .= '<div id="agendaEntry_'.$agendaEntry['AgendaEntry']['id'].'" class="courseSchedule agendaEntry" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$this->columnWidth.'px;">';
+						
+			$color = 'agendaTileGrey clickable agendaTileBlue';
+			$result .= '<div id="agendaEntry_'.$agendaEntry['AgendaEntry']['id'].'" class="courseSchedule agendaEntry '.$color.'" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$this->columnWidth.'px;">';
 					
 			$result .=	nl2br($agendaEntry['AgendaEntry']['label']).	'</div>';
 			

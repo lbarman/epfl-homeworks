@@ -35,6 +35,17 @@ class CourseSchedulesController extends AppController
         }
     }
 	
+	public function editSideColumn($id = null)
+	{
+		$this->layout = false;
+		$this->edit($id);	
+	}
+	public function addSideColumn()
+	{
+		$this->layout = false;
+		$this->add();
+	}
+	
 	public function edit($id = null) 
 	{
 		$this->set('courses', $this->CourseSchedule->Course->find('list', array(
@@ -66,6 +77,7 @@ class CourseSchedulesController extends AppController
 	
 		if (!$this->request->data) 
 		{
+			$this->set("data", $courseSchedule);
 			$this->request->data = $courseSchedule;
 		}
 	}

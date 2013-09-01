@@ -3,7 +3,6 @@
 echo $this->Html->css('dailyAgenda');
 ?>
 <div id="rightColumn" class="rightColumn">
- This is a test
 </div>
 <div class="leftColumn">
 <?php 

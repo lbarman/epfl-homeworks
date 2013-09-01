@@ -2,7 +2,12 @@
 
 <?php
 echo $this->Html->css('dailyAgenda');
+?>
 
+<div id="rightColumn" class="rightColumn">
+</div>
+<div class="leftColumn">
+<?php
 function printTable($courseSchedules, $courses, $users)
 {
 ?>
@@ -44,10 +49,10 @@ function printTable($courseSchedules, $courses, $users)
 }
 
 ?>
-
-<h1>Courses Schedules Entries</h1><?php echo $this->Html->link(
+<?php echo $this->Html->link(
     'Add Timeslot',
-    array('controller' => 'CourseSchedules', 'action' => 'add')
+    array('controller' => 'CourseSchedules', 'action' => 'add'),
+	 array('class' => 'addLink')
 ); ?>
 
     <?php //printTable($courseSchedules, $courses, $users); ?>
@@ -68,3 +73,27 @@ function printTable($courseSchedules, $courses, $users)
 		
 	</div>
     </div>
+   </div><script type="text/javascript" language="javascript">
+<!--
+	
+	$(".courseSchedule").each(function()
+	{
+		$(this).click(function(event)
+		{
+			$('#rightColumn').html("loading...");
+			var id = $(this).attr("id").split('_')[1];
+			var url = 'CourseSchedules/editSideColumn/'+id;
+	  		$('#rightColumn').load(url);
+		});
+		$(this).css("cursor", "pointer");
+	});
+	$(".editLink").each(function()
+	{
+		$(this).css("display", "none");
+	});
+	$(".addLink").click(function(event){
+		$("#rightColumn").load('CourseSchedules/addSideColumn');	
+		return false;
+	});
+-->
+</script>

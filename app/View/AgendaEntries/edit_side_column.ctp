@@ -8,7 +8,7 @@ echo $this->Form->input('entryType');
 echo $this->Form->input('date', array('dateFormat' => 'DMY', 'type' => 'hidden'));
 echo $this->Form->input('startTime', array('type' => 'hidden'));
 echo $this->Form->input('endTime', array('type' => 'hidden'));
-echo $this->Form->end('Save Post');
+echo $this->Form->end('Save tasks');
 echo $this->Form->postLink(
                 'Delete',
                 array('action' => 'delete', $this->request->data['AgendaEntry']['id']),

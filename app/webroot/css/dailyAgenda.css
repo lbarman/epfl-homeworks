@@ -119,10 +119,24 @@
 	-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
-.courseScheduleClickable
+.clickable
 {
-	
 	cursor:pointer;
+}
+
+.dailyColumn
+{
+	z-index:-100;	
+}
+
+.addLink
+{
+	background-color:#FFF;
+	display:block;
+	position:absolute;
+	top:55px;
+	left:10px;
+	z-index:1000;
 }
 
 .agendaEntry
