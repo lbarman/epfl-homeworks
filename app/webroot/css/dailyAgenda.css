@@ -101,7 +101,6 @@
 .courseSchedule
 {
 	z-index:100;
-	cursor:pointer;
 	font-size:11px;
 	position:absolute;
 	border:1px solid #000;
@@ -109,14 +108,6 @@
 	padding: 7px 14px;
 	padding-right:5px;
 	
-	background: #CCC;
-	background-repeat: repeat-x;
-	background-image: -moz-linear-gradient(top, #CCC, #AAA);
-	background-image: -ms-linear-gradient(top, #CCC, #AAA);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#CCC), to(#AAA));
-	background-image: -webkit-linear-gradient(top, #CCC, #AAA);
-	background-image: -o-linear-gradient(top, #CCC, #AAA);
-	background-image: linear-gradient(top, #CCC, #AAA);
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	border: 1px solid rgba(0, 0, 0, 0.2);
 	color: #FFF;
@@ -128,15 +119,10 @@
 	-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
-.courseScheduleEditable:hover
+.courseScheduleClickable
 {
-	background: #ffcc00;
-	background-image: -moz-linear-gradient(top, #ffcc00, #E6B800);
-	background-image: -ms-linear-gradient(top, #ffcc00, #E6B800);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#ffcc00), to(#E6B800));
-	background-image: -webkit-linear-gradient(top, #ffcc00, #E6B800);
-	background-image: -o-linear-gradient(top, #ffcc00, #E6B800);
-	background-image: linear-gradient(top, #ffcc00, #E6B800);
+	
+	cursor:pointer;
 }
 
 .agendaEntry
@@ -150,6 +136,111 @@
 	background-image: -o-linear-gradient(top, #09F, #06F);
 	background-image: linear-gradient(top, #09F, #06F);
 }
+.agendaTileGrey
+{
+	background: #CCC;
+	background-repeat: repeat-x;
+	background-image: -moz-linear-gradient(top, #CCC, #AAA);
+	background-image: -ms-linear-gradient(top, #CCC, #AAA);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#CCC), to(#AAA));
+	background-image: -webkit-linear-gradient(top, #CCC, #AAA);
+	background-image: -o-linear-gradient(top, #CCC, #AAA);
+	background-image: linear-gradient(top, #CCC, #AAA);	
+}
+
 .dailyColumn
 {	
+}
+.agendaTileBlueLight
+{
+	background: #0CF;
+	background-image: -moz-linear-gradient(top, #0CF, #09F);
+	background-image: -ms-linear-gradient(top, #0CF, #09F);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#0CF), to(#09F));
+	background-image: -webkit-linear-gradient(top, #0CF, #09F);
+	background-image: -o-linear-gradient(top, #0CF, #09F);
+	background-image: linear-gradient(top, #0CF, #09F);
+}
+.agendaTileBlue
+{
+	background: #09F;
+	background-image: -moz-linear-gradient(top, #09F, #06F);
+	background-image: -ms-linear-gradient(top, #09F, #06F);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#09F), to(#06F));
+	background-image: -webkit-linear-gradient(top, #09F, #06F);
+	background-image: -o-linear-gradient(top, #09F, #06F);
+	background-image: linear-gradient(top, #09F, #06F);
+}
+.agendaTileDarkBlue
+{
+	background: #06F;
+	background-image: -moz-linear-gradient(top, #06F, #04F);
+	background-image: -ms-linear-gradient(top, #06F, #04F);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#06F), to(#04F));
+	background-image: -webkit-linear-gradient(top, #06F, #04F);
+	background-image: -o-linear-gradient(top, #06F, #04F);
+	background-image: linear-gradient(top, #06F, #04F);
+}
+.agendaTileGreenLight
+{
+	background: #2C2;
+	background-image: -moz-linear-gradient(top, #2C2, #292);
+	background-image: -ms-linear-gradient(top, #2C2, #292);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#2C2), to(#292));
+	background-image: -webkit-linear-gradient(top, #2C2, #292);
+	background-image: -o-linear-gradient(top, #2C2, #292);
+	background-image: linear-gradient(top, #2C2, #292);
+}
+.agendaTileGreen
+{
+	background: #292;
+	background-image: -moz-linear-gradient(top, #292, #282);
+	background-image: -ms-linear-gradient(top, #292, #282);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#292), to(#282));
+	background-image: -webkit-linear-gradient(top, #292, #282);
+	background-image: -o-linear-gradient(top, #292, #282);
+	background-image: linear-gradient(top, #292, #282);
+}
+.agendaTileDarkGreen
+{
+	
+	background: #282;
+	background-image: -moz-linear-gradient(top, #282, #252);
+	background-image: -ms-linear-gradient(top, #282, #252);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#282), to(#252));
+	background-image: -webkit-linear-gradient(top, #282, #252);
+	background-image: -o-linear-gradient(top, #282, #252);
+	background-image: linear-gradient(top, #282, #252);
+}
+
+.agendaTilePurpleLight
+{
+	background: #98F;
+	background-image: -moz-linear-gradient(top, #98F, #95F);
+	background-image: -ms-linear-gradient(top, #98F, #95F);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#98F), to(#95F));
+	background-image: -webkit-linear-gradient(top, #98F, #95F);
+	background-image: -o-linear-gradient(top, #98F, #95F);
+	background-image: linear-gradient(top, #98F, #95F);
+}
+.agendaTilePurple
+{
+	background: #96F;
+	background-image: -moz-linear-gradient(top, #96F, #93F);
+	background-image: -ms-linear-gradient(top, #96F, #93F);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#96F), to(#93F));
+	background-image: -webkit-linear-gradient(top, #96F, #93F);
+	background-image: -o-linear-gradient(top, #96F, #93F);
+	background-image: linear-gradient(top, #96F, #93F);
+}
+.agendaTileDarkPurple
+{
+	
+	background: #93F;
+	background-image: -moz-linear-gradient(top, #93F, #90F);
+	background-image: -ms-linear-gradient(top, #93F, #90F);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#93F), to(#90F));
+	background-image: -webkit-linear-gradient(top, #93F, #90F);
+	background-image: -o-linear-gradient(top, #93F, #90F);
+	background-image: linear-gradient(top, #93F, #90F);
 }

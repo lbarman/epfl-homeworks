@@ -20,6 +20,10 @@ class CourseSchedule extends AppModel
         'DayOfWeek' => array(
             'className' => 'DayOfWeek',
             'foreignKey' => 'dayOfWeek'
+        ),
+        'ColorClass' => array(
+            'className' => 'ColorClass',
+            'foreignKey' => 'colorClass'
         )
     );
 }

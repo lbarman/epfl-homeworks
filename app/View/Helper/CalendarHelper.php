@@ -32,6 +32,13 @@ App::uses('Helper', 'View');
  */
 class CalendarHelper extends Helper 
 {
+	private $startHour		= 7;
+	private $endHour			= 21;
+	private $hourInPixel		= 60;
+	private $columnWidth		= 200;
+	private $columnSpacing	= 20;
+	private $columnOffset	= 100;
+	
 	public function printWeek($params)
 	{
 		$lastMonday = $params['lastMonday'];
@@ -62,23 +69,23 @@ class CalendarHelper extends Helper
 		return $number;	
 	}
 	
-	public function getTimeGrid($params, $startHour = 7, $endHour = 19, $hourInPixel=60, $columnWidth=200, $columnSpacing=20, $columnOffset=100)
+	public function getTimeGrid($params)
 	{
 		$lastMonday = $params['lastMonday'];
 		
 		$result = '';
 		
-		$hour = $startHour;
+		$hour = $this->startHour;
 		$min = 0;
 		
-		$width = $columnOffset + 7*($columnSpacing+$columnWidth);
+		$width = $this->columnOffset + 7*($this->columnSpacing+$this->columnWidth);
 		
-		while($hour <= $endHour)
+		while($hour <= $this->endHour)
 		{
 			$timeString = $this->twoDigits($hour).':'.$this->twoDigits($min);
 			
-			$startOffset = ($hour - $startHour)*$hourInPixel + $min;
-			$height = $hourInPixel/2;
+			$startOffset = ($hour - $this->startHour)*$this->hourInPixel + $min;
+			$height = $this->hourInPixel/2;
 			
 			$result .= '<div class="splitter" style="top:'.$startOffset.'px; height:'.$height.'px;width:'.$width.'px"><div>'.$timeString.'</div></div>';
 								  
@@ -92,7 +99,7 @@ class CalendarHelper extends Helper
 		
 		for($i=0; $i < 7; $i++)
 		{
-			$yOffset = $columnOffset+($columnWidth+$columnSpacing) * $i;
+			$yOffset = $this->columnOffset+($this->columnWidth+$this->columnSpacing) * $i;
 			$currentDate = $lastMonday + $i*3600*24;
 			$result .= '<div class="dateLabel" style="left:'.$yOffset.'px">'.date("d/m/Y", $currentDate).'</div>';
 		}
@@ -112,7 +119,7 @@ class CalendarHelper extends Helper
 		return $val;
 	}
 	
-	public function getCoursesTimeSlots($params, $startHour = 7, $hourInPixel=60, $columnWidth=200, $columnSpacing=20, $columnOffset=100)
+	public function getCoursesTimeSlots($params)
 	{
 		$lastMonday = $params['lastMonday'];
 		$courseSchedules = $params['courseSchedules'];
@@ -128,19 +135,20 @@ class CalendarHelper extends Helper
 			list($hour1, $min1) = explode(':', $t1);
 			list($hour2, $min2) = explode(':', $t2);
 			
-			$startOffset = ($hour1 - $startHour)*$hourInPixel + $min1;
-			$endOffset = ($hour2 - $startHour)*$hourInPixel + $min2; 
+			$startOffset = ($hour1 - $this->startHour)*$this->hourInPixel + $min1;
+			$endOffset = ($hour2 - $this->startHour)*$this->hourInPixel + $min2; 
 			$height = $endOffset-$startOffset;
-			$yOffset = $columnOffset+($columnWidth+$columnSpacing) * ($courseSchedule['CourseSchedule']['dayOfWeek'] - 1);
+			$yOffset = $this->columnOffset+($this->columnWidth+$this->columnSpacing) * ($courseSchedule['CourseSchedule']['dayOfWeek'] - 1);
 			
 			$date = $lastMonday + ($courseSchedule['CourseSchedule']['dayOfWeek'] - 1) * 3600*24;
 			$dateEarly = $this->finalTimeStamp($date, $courseSchedule['CourseSchedule']['startTime']);
 			$dateLater = $this->finalTimeStamp($date, $courseSchedule['CourseSchedule']['endTime']);
 			
-			$class = $editable ? 'courseSchedule courseScheduleEditable' : 'courseSchedule';
+			$color = 'agendaTileGrey '. $courseSchedule['ColorClass']['className'];
+			$class = $editable ? 'courseSchedule '.$color.'' : 'courseSchedule courseScheduleClickable';
 			$onclick = $editable ? '' : '';//' onClick="window.location = \'AgendaEntries/add/'.$courseSchedule['CourseSchedule']['courseId'].'/'.$dateEarly.'/'.$dateLater.'/\';"';
 			
-			$result .= '<div id="courseSchedule_'.$courseSchedule['CourseSchedule']['id'].'" class="'.$class.'" tag="'.$dateEarly.'_'.$dateLater.'/" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$columnWidth.'px;"'.$onclick.'>';
+			$result .= '<div id="courseSchedule_'.$courseSchedule['CourseSchedule']['id'].'" class="'.$class.'" tag="'.$dateEarly.'_'.$dateLater.'/" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$this->columnWidth.'px;"'.$onclick.'>';
 			
 			if($editable)
 			{	
@@ -156,7 +164,7 @@ class CalendarHelper extends Helper
 		return $result;
 	}
 	
-	public function getAgendaEntries($params, $startHour = 7, $hourInPixel=60, $columnWidth=200, $columnSpacing=20, $columnOffset=100)
+	public function getAgendaEntries($params)
 	{
 		$lastMonday = $params['lastMonday'];
 		$courseSchedules = $params['courseSchedules'];
@@ -173,15 +181,15 @@ class CalendarHelper extends Helper
 			list($hour1, $min1) = explode(':', $t1);
 			list($hour2, $min2) = explode(':', $t2);
 			
-			$startOffset = ($hour1 - $startHour)*$hourInPixel + $min1;
-			$endOffset = ($hour2 - $startHour)*$hourInPixel + $min2; 
+			$startOffset = ($hour1 - $this->startHour)*$this->hourInPixel + $min1;
+			$endOffset = ($hour2 - $this->startHour)*$this->hourInPixel + $min2; 
 			$height = $endOffset-$startOffset;
 			
 			$dayOfWeek = date("N", strtotime($agendaEntry['AgendaEntry']['date'])) ;
-			$yOffset = $columnOffset+($columnWidth+$columnSpacing) * ($dayOfWeek - 1);
+			$yOffset = $this->columnOffset+($this->columnWidth+$this->columnSpacing) * ($dayOfWeek - 1);
 			
 			
-			$result .= '<div id="agendaEntry_'.$agendaEntry['AgendaEntry']['id'].'" class="courseSchedule agendaEntry" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$columnWidth.'px;">';
+			$result .= '<div id="agendaEntry_'.$agendaEntry['AgendaEntry']['id'].'" class="courseSchedule agendaEntry" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$this->columnWidth.'px;">';
 					
 			$result .=	nl2br($agendaEntry['AgendaEntry']['label']).	'</div>';
 			
