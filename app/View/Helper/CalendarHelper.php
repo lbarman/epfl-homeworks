@@ -37,7 +37,7 @@ class CalendarHelper extends Helper
 	private $hourInPixel	= 60;
 	private $columnWidth	= 200;
 	private $columnSpacing	= 20;
-	private $columnOffset	= 100;
+	private $columnOffset	= 80;
 	private $lastDay		= 5; //end on friday
 	
 	public function printWeek($params)

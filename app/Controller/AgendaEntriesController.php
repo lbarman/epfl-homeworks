@@ -4,20 +4,29 @@ class AgendaEntriesController extends AppController
     public $helpers = array('Html', 'Form');
 	public $uses = array('User', 'Course', 'CourseSchedule', 'AgendaEntry');
 	
-	public function index() 
+	public function index($monday = -1) 
 	{
-		$lastMonday = strtotime('last monday', strtotime('tomorrow'));
-		$nextSunday = $lastMonday + 3600*24*7;
+		if($monday == -1 || !is_numeric($monday))
+			$lastMonday = strtotime('last monday', strtotime('tomorrow'));
+		else
+			$lastMonday = $monday;
+		
+		$oneDay = 3600*24;
+		$oneWeek = $oneDay*7;
+		$nextMonday = $lastMonday + $oneWeek;
+		$previousMonday = $lastMonday - $oneWeek;
 		
 		$courseSchedules = $this->CourseSchedule->find('all');
 		$users = $this->User->find('list', array("fields" => array('User.id', 'User.username')));
 		$courses = $this->Course->find('list', array("fields" => array('Course.id', 'Course.label')));
 		$agendaEntries = $this->AgendaEntry->find('all', array(
-												'conditions' => array('AgendaEntry.date > ' => date('Y/m/d', $lastMonday), 'AgendaEntry.date <= ' => date('Y/m/d', $nextSunday)),
+												'conditions' => array('AgendaEntry.date > ' => date('Y/m/d', $lastMonday), 'AgendaEntry.date <= ' => date('Y/m/d', $nextMonday)),
 												'order' => array('AgendaEntry.date ASC')
 											));
 		
 		$this->set('lastMonday', $lastMonday);
+		$this->set('nextMonday', $nextMonday);
+		$this->set('previousMonday', $previousMonday);
         $this->set('courses', $courses);
         $this->set('users', $users);
         $this->set('courseSchedules', $courseSchedules);
@@ -82,6 +91,7 @@ class AgendaEntriesController extends AppController
 		}
 	
 		$agendaEntry = $this->AgendaEntry->findById($id);
+		$this->set("agendaEntry", $agendaEntry);
 		if (!$agendaEntry) 
 		{
 			throw new NotFoundException(__('Invalid post'));

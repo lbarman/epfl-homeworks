@@ -3,8 +3,15 @@
 echo $this->Html->css('dailyAgenda');
 ?>
 <div id="rightColumn" class="rightColumn">
+	&nbsp;
 </div>
 <div class="leftColumn">
+    <div  id="left_disclosure" class="clickable">
+        <img src="<?php echo $this->webroot; ?>img/left_disclosure.png" width="40" height="131" alt="Previous week" />
+    </div>
+    <div id="right_disclosure" class="clickable">
+        <img src="<?php echo $this->webroot; ?>img/right_disclosure.png" width="40" height="131" alt="Next week" />
+    </div>
 <?php 
 
 $params = array(
@@ -30,7 +37,7 @@ echo $this->Calendar->printWeek($params);
 		{
 			$('#rightColumn').html("loading...");
 			var id = $(this).attr("id").split('_')[1];
-			var url = 'AgendaEntries/editSideColumn/'+id;
+			var url = '<?php echo Router::url('/'); ?>AgendaEntries/editSideColumn/'+id;
 	  		$('#rightColumn').load(url);
 		});
 	});
@@ -43,9 +50,28 @@ echo $this->Calendar->printWeek($params);
 			var id = $(this).attr("id").split('_')[1];
 			var time1 = $(this).attr("tag").split('_')[0];
 			var time2 = $(this).attr("tag").split('_')[1];
-			var url = 'AgendaEntries/addSideColumn/'+id+'/'+time1+'/'+time2;
+			var url = '<?php echo Router::url('/'); ?>AgendaEntries/addSideColumn/'+id+'/'+time1+'/'+time2;
 	  		$('#rightColumn').load(url);
 		});
 	});
+	
+	var screenWidth = $('body').innerWidth();
+	var rightColumnWidth = $(".rightColumn").css("width").replace("px", "");
+	var leftColumnWidth = screenWidth - rightColumnWidth;
+	var rightDisclosureplacement = leftColumnWidth - 100;
+	
+	$("#left_disclosure").css("top", "400px");
+	$("#left_disclosure").css("left", "25px");
+	$("#left_disclosure").click(function(event)
+		{
+			window.location = '<?php echo Router::url('/').'AgendaEntries/index/'.$previousMonday; ?>';
+		});
+		
+	$("#right_disclosure").css("top", "400px");
+	$("#right_disclosure").css("left", rightDisclosureplacement+"px");
+	$("#right_disclosure").click(function(event)
+		{
+			window.location = '<?php echo Router::url('/').'AgendaEntries/index/'.$nextMonday; ?>';
+		});
 -->
 </script>
