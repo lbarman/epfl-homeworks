@@ -190,11 +190,11 @@ class CalendarHelper extends Helper
 			$yOffset = $this->columnOffset+($this->columnWidth+$this->columnSpacing) * ($dayOfWeek - 1);
 						
 			$color = 'agendaTileGrey clickable agendaTileBlue';
-			$result .= '<div id="agendaEntry_'.$agendaEntry['AgendaEntry']['id'].'" class="courseSchedule agendaEntry '.$color.'" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$this->columnWidth.'px;">';
+			$result .= '<div id="agendaEntry_'.$agendaEntry['AgendaEntry']['id'].'" class="agendaEntry '.$color.'" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$this->columnWidth.'px;">';
 			
 			$lines = explode("\n", $agendaEntry['AgendaEntry']['label']);
-			$cb0 = '<img src="app/webroot/img/checkbox0.gif" width="13" height="13" alt="Pending" class="checkboxImg"/>';
-			$cb1 = '<img src="app/webroot/img/checkbox1.gif" width="13" height="13" alt="Pending" class="checkboxImg" />';
+			$cb0 = '<img src="'.Router::url('/').'app/webroot/img/checkbox0.gif" width="13" height="13" alt="Pending" class="checkboxImg"/>';
+			$cb1 = '<img src="'.Router::url('/').'app/webroot/img/checkbox1.gif" width="13" height="13" alt="Pending" class="checkboxImg" />';
 			
 			foreach($lines as $line)
 			{

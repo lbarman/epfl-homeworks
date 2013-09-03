@@ -31,16 +31,6 @@ echo $this->Calendar->printWeek($params);
 <script type="text/javascript" language="javascript">
 <!--
 
-	$(".agendaEntry").each(function()
-	{
-		$(this).click(function(event)
-		{
-			$('#rightColumn').html("loading...");
-			var id = $(this).attr("id").split('_')[1];
-			var url = '<?php echo Router::url('/'); ?>AgendaEntries/editSideColumn/'+id;
-	  		$('#rightColumn').load(url);
-		});
-	});
 	
 	$(".courseSchedule").each(function()
 	{
@@ -55,6 +45,18 @@ echo $this->Calendar->printWeek($params);
 		});
 	});
 	
+	
+	$(".agendaEntry").each(function()
+	{
+		$(this).click(function(event)
+		{
+			$('#rightColumn').html("loading...");
+			var id = $(this).attr("id").split('_')[1];
+			var url = '<?php echo Router::url('/'); ?>AgendaEntries/editSideColumn/'+id;
+	  		$('#rightColumn').load(url);
+		});
+	});
+	
 	var screenWidth = $('body').innerWidth();
 	var rightColumnWidth = $(".rightColumn").css("width").replace("px", "");
 	var leftColumnWidth = screenWidth - rightColumnWidth;
@@ -64,6 +66,8 @@ echo $this->Calendar->printWeek($params);
 	$("#left_disclosure").css("left", "25px");
 	$("#left_disclosure").click(function(event)
 		{
+			$('.courseSchedule').fadeOut();
+			$('.agendaEntry').fadeOut();
 			window.location = '<?php echo Router::url('/').'AgendaEntries/index/'.$previousMonday; ?>';
 		});
 		
@@ -71,6 +75,8 @@ echo $this->Calendar->printWeek($params);
 	$("#right_disclosure").css("left", rightDisclosureplacement+"px");
 	$("#right_disclosure").click(function(event)
 		{
+			$('.courseSchedule').fadeOut();
+			$('.agendaEntry').fadeOut();
 			window.location = '<?php echo Router::url('/').'AgendaEntries/index/'.$nextMonday; ?>';
 		});
 -->
