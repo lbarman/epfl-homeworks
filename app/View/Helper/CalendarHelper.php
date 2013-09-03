@@ -191,8 +191,34 @@ class CalendarHelper extends Helper
 						
 			$color = 'agendaTileGrey clickable agendaTileBlue';
 			$result .= '<div id="agendaEntry_'.$agendaEntry['AgendaEntry']['id'].'" class="courseSchedule agendaEntry '.$color.'" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$this->columnWidth.'px;">';
+			
+			$lines = explode("\n", $agendaEntry['AgendaEntry']['label']);
+			$cb0 = '<img src="app/webroot/img/checkbox0.gif" width="13" height="13" alt="Pending" class="checkboxImg"/>';
+			$cb1 = '<img src="app/webroot/img/checkbox1.gif" width="13" height="13" alt="Pending" class="checkboxImg" />';
+			
+			foreach($lines as $line)
+			{
+				$lineTrimmed = trim($line);
+				if(empty($line))
+					continue;
 					
-			$result .=	nl2br($agendaEntry['AgendaEntry']['label']).	'</div>';
+				$firstChar = substr($lineTrimmed, 0, 1);
+				if($firstChar == '-')
+				{
+					$result .= $cb0.substr($lineTrimmed, 1);
+				}
+				else if($firstChar == '+')
+				{
+					$result .= $cb1.substr($lineTrimmed, 1);
+				}
+				else
+				{
+					$result .= $lineTrimmed;
+				}
+				$result .= '<br />';
+			}
+			
+			$result .=	'</div>';
 			
 		endforeach;	
 		
