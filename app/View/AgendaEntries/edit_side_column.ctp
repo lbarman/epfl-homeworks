@@ -1,5 +1,35 @@
 <!-- File: /app/View/AgendaEntries/editSideColumn.ctp -->
+
+<!DOCTYPE html>
+<html ng-app>
+<head>
 <?php
+echo $this->Html->script('angular');
+echo $this->Html->script('jquery');
+?>
+
+</head>
+<body>
+<div ng-controller="TaskCtrl">
+      <span>{{remaining()}} of {{todos.length}} remaining</span>
+      <ul class="taskList">
+        <li ng-repeat="task in taskList">
+          <input type="checkbox" ng-model="task.checked" ng-change="alert('yes');updateLabel()">
+          <span class="done-{{task.checked}}">{{task.trimmedText}} <button ng-click="deleteTask(task.id);">&nbsp;x&nbsp;</button></span>
+        </li>
+      </ul>
+      <form ng-submit="addTask()">
+        <input type="text" ng-model="taskText"  size="30"
+               placeholder="add new task here">
+        <input class="btn-primary" type="submit" value="add">
+      </form>
+    </div>
+<script type="text/javascript" language="javascript">
+<!--
+
+function TaskCtrl($scope) 
+{
+	<?php
 $label = $agendaEntry['AgendaEntry']['label'];
 $lines = explode("\r\n", $label);
 $lines_processed = array();
@@ -7,71 +37,70 @@ $lines_processed = array();
 $dataSource = array();
 for($i=0; $i<count($lines); $i++)
 {
-	$id = "editorLine_".$i;
-	//$checkbox = '<input type="checkbox" id="'.$id.'" name="'.$id.'" value="Car">';
 	$trimmed = trim($lines[$i]);
 	$firstChar = substr($trimmed, 0, 1);
 	$checked = ($firstChar == '+');
 	if($firstChar == '+' || $firstChar == '-')
 		$trimmed = trim(substr($trimmed, 1));
 	
-	$dataSource[] = array('id' => $id, 'text' => $lines[$i], 'checked'=>$checked, 'trimmedText'=>$trimmed);
+	$dataSource[] = array('text' => $lines[$i], 'checked'=>$checked, 'trimmedText'=>$trimmed, 'id'=>$i);
 }
-echo '<script language="javascript" type="text/javascript">'."\r\n";
-echo '<!--'."\r\n";
-echo 'var dataSource = '.json_encode($dataSource)."\r\n";
-echo '-->'."\r\n";
-echo '</script>'."\r\n";
+echo '$scope.taskList = '.json_encode($dataSource)."\r\n";
 ?>
-<div id="editor">
-loading fields...
-</div>
-<script type="text/javascript" language="javascript">
-<!--
 
-function checkedChanged(id, checked)
-{
-	for(var i=0; i<dataSource.length; i++)
+  $scope.addTask = function() {
+	  if($scope.taskText != "")
+	  {
+    	$scope.taskList.push({text:$scope.taskText, checked:false, trimmedText:$scope.taskText, id:$scope.lastId()+1});
+    	$scope.todoText = '';
+	  }
+	$scope.updateLabel();
+  };
+ 
+  $scope.remaining = function() {
+    var count = 0;
+    angular.forEach($scope.taskList, function(task) {
+      count += task.checked ? 0 : 1;
+    });
+    return count;
+  };
+  
+  $scope.lastId = function() {
+    var maxId = 0;
+    angular.forEach($scope.taskList, function(task) {;
+		if(maxId < task.id)
+			maxId = task.id;
+    });
+    return maxId;
+  };
+ 
+  $scope.deleteTask = function(id) {
+	var newTaskList = [];
+    angular.forEach($scope.taskList, function(task)
 	{
-		if(dataSource[i]['id'] == id){
-			dataSource[i]['checked'] = checked;
-		}
-	}
-	updateLabelWithDataSource();
+      if (task.id != id)
+	  {
+	  	newTaskList.push(task);
+	  }
+    });
+	$scope.taskList = newTaskList;
+	$scope.updateLabel();
+	return false;
+  };
+  
+  $scope.updateLabel = function()
+  {
+	var value = '';
+	
+	angular.forEach($scope.taskList, function(task)
+	{
+      value += (task.checked ? '+' : '-' )+" "+task.trimmedText+"\r\n";
+    });
+	
+	$("#AgendaEntryLabel").val(value.trim());
+  }
 }
 
-function updateLabelWithDataSource()
-{
-	var text = '';
-	for(var i=0; i<dataSource.length; i++)
-	{
-		if(dataSource[i]['checked']){
-			text += '+ ';
-		}else{
-			text += '- ';	
-		}
-		text += dataSource[i]['trimmedText'];
-		text += "\r\n";
-	}
-	$("#AgendaEntryLabel").val(text.trim());	
-}
-
-var editorHtml = '';
-$.each(dataSource, function(key, line) 
-{
-	editorHtml += '<div class="editorLine">';
-	var checkedImage = line['checked'] ? '_1' : '_0';
-	editorHtml += '<img src="app/webroot/img/checkbox32'+checkedImage+'.png" width="32" height="32" alt="Delete option" />';
-	//editorHtml += '<input type="checkbox" class="cb_editorLine" id="cb_' + line['id'] + '" name="cb_' + line['id'] + '" '+checked+'>';
-	editorHtml += '<input type="textbox" class="tb_editorLine" id="tb_' + line['id'] + '" name="tb_' + line['id'] + '" value="'+line['trimmedText']+'">';
-    editorHtml += '<img src="app/webroot/img/delete.png" width="16" height="16" alt="Delete option" />';
-	editorHtml += '</div>';
-});
-$("#editor").html(editorHtml);
-
-$(".cb_editorLine").change(function() {
-	checkedChanged(this.id.replace('cb_', ''), this.checked);
-});
 -->
 </script>
 <?
@@ -89,4 +118,5 @@ echo $this->Form->postLink(
                 'Delete',
                 array('action' => 'delete', $this->request->data['AgendaEntry']['id']),
                 array('confirm' => 'Are you sure?'));
-?>
+?></body>
+</html>

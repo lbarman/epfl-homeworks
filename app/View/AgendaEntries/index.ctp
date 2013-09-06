@@ -1,6 +1,7 @@
 <!-- File: /app/View/AgendaEntry/index.ctp -->
 <?php 
 echo $this->Html->css('dailyAgenda');
+echo $this->Html->script('angular');
 ?>
 <div id="rightColumn" class="rightColumn">
 	&nbsp;
