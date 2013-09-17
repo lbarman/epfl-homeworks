@@ -129,7 +129,6 @@ class AgendaEntriesController extends AppController
 	
 		if ($this->AgendaEntry->delete($id))
 		{
-			$this->Session->setFlash(__('The Agenda Entry with id: %s has been deleted.', h($id)));
 			return $this->redirect(array('action' => 'index'));
 		}
 	}

@@ -32,7 +32,7 @@ echo $this->Html->script('editor');
 echo $this->Form->create('AgendaEntry');
 echo $this->Form->input('label', array('type' => 'hidden'));
 echo $this->Form->input('Course', array(
-    'name' => 'data[AgendaEntry][courseId]'));
+    'name' => 'data[AgendaEntry][courseId]', 'type' => 'hidden'));
 echo $this->Form->input('entryType', array('type' => 'hidden'));
 echo $this->Form->input('date', array('dateFormat' => 'DMY', 'type' => 'hidden'));
 echo $this->Form->input('startTime', array('type' => 'hidden'));

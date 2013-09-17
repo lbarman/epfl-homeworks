@@ -56,9 +56,10 @@
 .dateLabel
 {
 	position:absolute;
-	top:10px;
+	top:0px;
 	color:#CCC;
 	font-size:11px;	
+	padding:5px;
 }
 
 .dailyTable,
@@ -341,4 +342,11 @@
 .menuItem:hover
 {
 	background-color:#00647d;
+}
+.today
+{
+	background-color:#f4f4ff;
+	width:200px;
+	height:850px;	
+	color:#AAA;
 }
