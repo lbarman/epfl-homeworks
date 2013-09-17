@@ -323,3 +323,22 @@
 	background-image: -o-linear-gradient(top, #93F, #90F);
 	background-image: linear-gradient(top, #93F, #90F);
 }
+#header h1
+{
+}
+#menu
+{
+	float:right;
+}
+.menuItem
+{
+	display:inline-block;
+	width:150px;	
+	text-align:center;
+	padding:5px;
+	cursor:pointer;
+}
+.menuItem:hover
+{
+	background-color:#00647d;
+}

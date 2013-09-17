@@ -1,7 +1,5 @@
 <!-- File: /app/View/AgendaEntry/index.ctp -->
-<?php 
-echo $this->Html->css('dailyAgenda');
-?>
+
 <div id="rightColumn" class="rightColumn">
 	&nbsp;
 </div>

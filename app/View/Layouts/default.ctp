@@ -32,7 +32,8 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css('cake.generic');
-
+		echo $this->Html->css('dailyAgenda');
+		
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
@@ -41,6 +42,12 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 <body>
 	<div id="container">
 		<div id="header">
+            <div id="menu">
+            	<div class="menuItem" id="menu_agenda">Agenda</div>
+            	<div class="menuItem" id="menu_timeslot">Timeslots</div>
+            	<div class="menuItem" id="menu_courses">Courses</div>
+            	<div class="menuItem" id="menu_account">Account</div>
+            </div>
 			<h1>EPFL Homeworks</h1>
 		</div>
 		<div id="content">
@@ -58,5 +65,13 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 			?>
 		</div>
 	</div>
+    <script type="application/javascript" language="javascript">
+	<!--
+	$("#menu_agenda").click(function(){window.location = '/epfl-homeworks/AgendaEntries';});
+	$("#menu_timeslot").click(function(){window.location = '/epfl-homeworks/CourseSchedules';});
+	$("#menu_courses").click(function(){window.location = '/epfl-homeworks/Courses';});
+	$("#menu_account").click(function(){window.location = '/epfl-homeworks/Users';});
+	-->
+	</script>
 </body>
 </html>
