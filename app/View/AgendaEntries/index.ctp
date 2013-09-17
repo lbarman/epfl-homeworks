@@ -38,7 +38,7 @@ echo $this->Calendar->printWeek($params);
 		$(this).click(function(event)
 		{
 			$('#rightColumn').html("loading...");
-			var id = $(this).attr("id").split('_')[1];
+			var id = $(this).attr("id").split('_')[3];
 			var time1 = $(this).attr("tag").split('_')[0];
 			var time2 = $(this).attr("tag").split('_')[1];
 			var url = '<?php echo Router::url('/'); ?>AgendaEntries/addSideColumn/'+id+'/'+time1+'/'+time2;

@@ -102,7 +102,10 @@ class CalendarHelper extends Helper
 		{
 			$yOffset = $this->columnOffset+($this->columnWidth+$this->columnSpacing) * $i;
 			$currentDate = $lastMonday + $i*3600*24;
-			$result .= '<div class="dateLabel" style="left:'.$yOffset.'px">'.date("d/m/Y", $currentDate).'</div>';
+			if(date("d/m/Y", $currentDate) == date("d/m/Y", time()))
+				$result .= '<div class="dateLabel today" style="left:'.$yOffset.'px">'.date("d/m/Y", $currentDate).'</div>';
+			else
+				$result .= '<div class="dateLabel" style="left:'.$yOffset.'px">'.date("d/m/Y", $currentDate).'</div>';
 		}
 		
 		return $result;
@@ -149,7 +152,7 @@ class CalendarHelper extends Helper
 			$class = $editable ? 'courseSchedule '.$color.'' : 'courseSchedule clickable agendaTileGrey';
 			$onclick = $editable ? '' : '';//' onClick="window.location = \'AgendaEntries/add/'.$courseSchedule['CourseSchedule']['courseId'].'/'.$dateEarly.'/'.$dateLater.'/\';"';
 			
-			$result .= '<div id="courseSchedule_'.$courseSchedule['CourseSchedule']['id'].'" class="'.$class.'" tag="'.$dateEarly.'_'.$dateLater.'/" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$this->columnWidth.'px;"'.$onclick.'>';
+			$result .= '<div id="courseSchedule_'.$courseSchedule['CourseSchedule']['id'].'_course_'.$courseSchedule['CourseSchedule']['courseId'].'" class="'.$class.'" tag="'.$dateEarly.'_'.$dateLater.'/" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$this->columnWidth.'px;"'.$onclick.'>';
 			
 			if($editable)
 			{	
@@ -158,7 +161,7 @@ class CalendarHelper extends Helper
 				$result .=	'<a class="editLink" href="CourseSchedules/edit/'.$courseSchedule['CourseSchedule']['id'].'"><img src="app/webroot/img/edit.gif" width="14" height="14" alt="Edit" /></a>';
 			}
 						
-			$result .=	$courses[$courseSchedule['CourseSchedule']['courseId']].	'</div>';
+			$result .=	$courses[$courseSchedule['CourseSchedule']['courseId']].'</div>';
 			
 		endforeach;	
 		
@@ -195,7 +198,7 @@ class CalendarHelper extends Helper
 			$lines = explode("\n", $agendaEntry['AgendaEntry']['label']);
 			$cb0 = '<img src="'.Router::url('/').'app/webroot/img/checkbox0.gif" width="13" height="13" alt="Pending" class="checkboxImg"/>';
 			$cb1 = '<img src="'.Router::url('/').'app/webroot/img/checkbox1.gif" width="13" height="13" alt="Pending" class="checkboxImg" />';
-			
+						
 			foreach($lines as $line)
 			{
 				$lineTrimmed = trim($line);

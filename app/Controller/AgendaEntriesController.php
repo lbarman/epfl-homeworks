@@ -20,7 +20,7 @@ class AgendaEntriesController extends AppController
 		$users = $this->User->find('list', array("fields" => array('User.id', 'User.username')));
 		$courses = $this->Course->find('list', array("fields" => array('Course.id', 'Course.label')));
 		$agendaEntries = $this->AgendaEntry->find('all', array(
-												'conditions' => array('AgendaEntry.date >= ' => date('Y/m/d', $lastMonday), 'AgendaEntry.date <= ' => date('Y/m/d', $nextMonday)),
+												'conditions' => array('AgendaEntry.date >= ' => date('Y/m/d', $lastMonday), 'AgendaEntry.date < ' => date('Y/m/d', $nextMonday)),
 												'order' => array('AgendaEntry.date ASC')
 											));
 		
@@ -35,6 +35,7 @@ class AgendaEntriesController extends AppController
 	
 	public function add($courseId=1, $dateEarly=0, $dateLater=0)
 	{
+		$this->set("courseId", $courseId);
 		$this->set('courses', $this->AgendaEntry->Course->find('list', array(
         															'fields' => array('Course.id', 'Course.label'))));
 		$this->set('entryTypes', $this->AgendaEntry->EntryType->find('list', array(
