@@ -193,6 +193,8 @@ class CalendarHelper extends Helper
 			$yOffset = $this->columnOffset+($this->columnWidth+$this->columnSpacing) * ($dayOfWeek - 1);
 						
 			$color = 'agendaTileGrey clickable agendaTileBlue';
+			//if(!empty($agendaEntry['AgendaEntry']['colorClass']))
+				$color .= ' '.$agendaEntry['AgendaEntry']['colorClass'];
 			$result .= '<div id="agendaEntry_'.$agendaEntry['AgendaEntry']['id'].'" class="agendaEntry '.$color.'" style="top:'.$startOffset.'px; height:'.$height.'px;left:'.$yOffset.'px;width:'.$this->columnWidth.'px;">';
 			
 			$lines = explode("\n", $agendaEntry['AgendaEntry']['label']);

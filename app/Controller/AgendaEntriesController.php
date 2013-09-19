@@ -22,8 +22,22 @@ class AgendaEntriesController extends AppController
 		$agendaEntries = $this->AgendaEntry->find('all', array(
 												'conditions' => array('AgendaEntry.date >= ' => date('Y/m/d', $lastMonday), 'AgendaEntry.date < ' => date('Y/m/d', $nextMonday)),
 												'order' => array('AgendaEntry.date ASC')
-											));
-		
+											));					
+		for($i = 0; $i<count($agendaEntries); $i++)
+		{
+			$color = '';
+			foreach($courseSchedules as $courseSchedule)
+			{
+				$dayOfWeek = date("N", strtotime($agendaEntries[$i]['AgendaEntry']['date']));
+				if($agendaEntries[$i]['AgendaEntry']['startTime'] == $courseSchedule['CourseSchedule']['startTime'] &&
+				$agendaEntries[$i]['AgendaEntry']['endTime'] == $courseSchedule['CourseSchedule']['endTime'] &&
+				$dayOfWeek == $courseSchedule['CourseSchedule']['dayOfWeek'])
+				{
+					$color = $courseSchedule['ColorClass']['className'];
+				}
+			}
+			$agendaEntries[$i]['AgendaEntry']['colorClass'] = $color;
+		}
 		$this->set('lastMonday', $lastMonday);
 		$this->set('nextMonday', $nextMonday);
 		$this->set('previousMonday', $previousMonday);
